@@ -1,0 +1,220 @@
+classdef app1_exported < matlab.apps.AppBase
+
+    % Properties that correspond to app components
+    properties (Access = public)
+        UIFigure                   matlab.ui.Figure
+        ResetButton                matlab.ui.control.Button
+        plotMagphButton            matlab.ui.control.Button
+        ApplyAllButton             matlab.ui.control.Button
+        LoadButton                 matlab.ui.control.Button
+        ApplyButton_3              matlab.ui.control.Button
+        ApplyButton_2              matlab.ui.control.Button
+        ApplyButton                matlab.ui.control.Button
+        above45HzButtonGroup       matlab.ui.container.ButtonGroup
+        EllipticButton_3           matlab.ui.control.RadioButton
+        ChebyshevtypeIIButton_3    matlab.ui.control.RadioButton
+        ChebyshevtypeIButton_3     matlab.ui.control.RadioButton
+        ButterworthButton_3        matlab.ui.control.RadioButton
+        HzButtonGroup_2            matlab.ui.container.ButtonGroup
+        EllipticButton_2           matlab.ui.control.RadioButton
+        ChebyshevtypeIIButton_2    matlab.ui.control.RadioButton
+        ChebyshevtypeIButton_2     matlab.ui.control.RadioButton
+        ButterworthButton_2        matlab.ui.control.RadioButton
+        HzButtonGroup              matlab.ui.container.ButtonGroup
+        EllipticButton             matlab.ui.control.RadioButton
+        ChebyshevtypeIIButton      matlab.ui.control.RadioButton
+        ChebyshevtypeIButton       matlab.ui.control.RadioButton
+        ButterworthButton          matlab.ui.control.RadioButton
+        ECGSignalEnhancementLabel  matlab.ui.control.Label
+        UIAxes4                    matlab.ui.control.UIAxes
+        UIAxes3                    matlab.ui.control.UIAxes
+        UIAxes2                    matlab.ui.control.UIAxes
+        UIAxes                     matlab.ui.control.UIAxes
+    end
+
+    % Component initialization
+    methods (Access = private)
+
+        % Create UIFigure and components
+        function createComponents(app)
+
+            % Create UIFigure and hide until all components are created
+            app.UIFigure = uifigure('Visible', 'off');
+            app.UIFigure.Position = [100 100 860 567];
+            app.UIFigure.Name = 'MATLAB App';
+
+            % Create UIAxes
+            app.UIAxes = uiaxes(app.UIFigure);
+            title(app.UIAxes, 'Original Signal')
+            app.UIAxes.Position = [23 306 388 194];
+
+            % Create UIAxes2
+            app.UIAxes2 = uiaxes(app.UIFigure);
+            title(app.UIAxes2, 'Output Signal')
+            app.UIAxes2.Position = [423 306 395 194];
+
+            % Create UIAxes3
+            app.UIAxes3 = uiaxes(app.UIFigure);
+            title(app.UIAxes3, 'Magnitude Plot')
+            app.UIAxes3.Position = [517 169 301 138];
+
+            % Create UIAxes4
+            app.UIAxes4 = uiaxes(app.UIFigure);
+            title(app.UIAxes4, 'Phase Plot')
+            app.UIAxes4.Position = [517 29 301 133];
+
+            % Create ECGSignalEnhancementLabel
+            app.ECGSignalEnhancementLabel = uilabel(app.UIFigure);
+            app.ECGSignalEnhancementLabel.HorizontalAlignment = 'center';
+            app.ECGSignalEnhancementLabel.FontName = 'Algerian';
+            app.ECGSignalEnhancementLabel.FontSize = 24;
+            app.ECGSignalEnhancementLabel.Position = [22 499 796 45];
+            app.ECGSignalEnhancementLabel.Text = 'ECG Signal Enhancement';
+
+            % Create HzButtonGroup
+            app.HzButtonGroup = uibuttongroup(app.UIFigure);
+            app.HzButtonGroup.TitlePosition = 'centertop';
+            app.HzButtonGroup.Title = '0-1 Hz';
+            app.HzButtonGroup.Position = [58 151 131 133];
+
+            % Create ButterworthButton
+            app.ButterworthButton = uiradiobutton(app.HzButtonGroup);
+            app.ButterworthButton.Text = 'Butterworth';
+            app.ButterworthButton.Position = [11 76 83 22];
+            app.ButterworthButton.Value = true;
+
+            % Create ChebyshevtypeIButton
+            app.ChebyshevtypeIButton = uiradiobutton(app.HzButtonGroup);
+            app.ChebyshevtypeIButton.Text = 'Chebyshev type I';
+            app.ChebyshevtypeIButton.Position = [11 55 115 22];
+
+            % Create ChebyshevtypeIIButton
+            app.ChebyshevtypeIIButton = uiradiobutton(app.HzButtonGroup);
+            app.ChebyshevtypeIIButton.Text = 'Chebyshev type II';
+            app.ChebyshevtypeIIButton.Position = [11 34 118 22];
+
+            % Create EllipticButton
+            app.EllipticButton = uiradiobutton(app.HzButtonGroup);
+            app.EllipticButton.Text = 'Elliptic';
+            app.EllipticButton.Position = [11 10 57 22];
+
+            % Create HzButtonGroup_2
+            app.HzButtonGroup_2 = uibuttongroup(app.UIFigure);
+            app.HzButtonGroup_2.TitlePosition = 'centertop';
+            app.HzButtonGroup_2.Title = '6-40 Hz';
+            app.HzButtonGroup_2.Position = [210 151 131 133];
+
+            % Create ButterworthButton_2
+            app.ButterworthButton_2 = uiradiobutton(app.HzButtonGroup_2);
+            app.ButterworthButton_2.Text = 'Butterworth';
+            app.ButterworthButton_2.Position = [11 76 83 22];
+            app.ButterworthButton_2.Value = true;
+
+            % Create ChebyshevtypeIButton_2
+            app.ChebyshevtypeIButton_2 = uiradiobutton(app.HzButtonGroup_2);
+            app.ChebyshevtypeIButton_2.Text = 'Chebyshev type I';
+            app.ChebyshevtypeIButton_2.Position = [11 55 115 22];
+
+            % Create ChebyshevtypeIIButton_2
+            app.ChebyshevtypeIIButton_2 = uiradiobutton(app.HzButtonGroup_2);
+            app.ChebyshevtypeIIButton_2.Text = 'Chebyshev type II';
+            app.ChebyshevtypeIIButton_2.Position = [11 34 118 22];
+
+            % Create EllipticButton_2
+            app.EllipticButton_2 = uiradiobutton(app.HzButtonGroup_2);
+            app.EllipticButton_2.Text = 'Elliptic';
+            app.EllipticButton_2.Position = [11 10 57 22];
+
+            % Create above45HzButtonGroup
+            app.above45HzButtonGroup = uibuttongroup(app.UIFigure);
+            app.above45HzButtonGroup.TitlePosition = 'centertop';
+            app.above45HzButtonGroup.Title = 'above 45 Hz';
+            app.above45HzButtonGroup.Position = [365 151 131 133];
+
+            % Create ButterworthButton_3
+            app.ButterworthButton_3 = uiradiobutton(app.above45HzButtonGroup);
+            app.ButterworthButton_3.Text = 'Butterworth';
+            app.ButterworthButton_3.Position = [11 76 83 22];
+            app.ButterworthButton_3.Value = true;
+
+            % Create ChebyshevtypeIButton_3
+            app.ChebyshevtypeIButton_3 = uiradiobutton(app.above45HzButtonGroup);
+            app.ChebyshevtypeIButton_3.Text = 'Chebyshev type I';
+            app.ChebyshevtypeIButton_3.Position = [11 55 115 22];
+
+            % Create ChebyshevtypeIIButton_3
+            app.ChebyshevtypeIIButton_3 = uiradiobutton(app.above45HzButtonGroup);
+            app.ChebyshevtypeIIButton_3.Text = 'Chebyshev type II';
+            app.ChebyshevtypeIIButton_3.Position = [11 34 118 22];
+
+            % Create EllipticButton_3
+            app.EllipticButton_3 = uiradiobutton(app.above45HzButtonGroup);
+            app.EllipticButton_3.Text = 'Elliptic';
+            app.EllipticButton_3.Position = [11 10 57 22];
+
+            % Create ApplyButton
+            app.ApplyButton = uibutton(app.UIFigure, 'push');
+            app.ApplyButton.Position = [70 106 105 28];
+            app.ApplyButton.Text = 'Apply';
+
+            % Create ApplyButton_2
+            app.ApplyButton_2 = uibutton(app.UIFigure, 'push');
+            app.ApplyButton_2.Position = [226 106 105 28];
+            app.ApplyButton_2.Text = 'Apply';
+
+            % Create ApplyButton_3
+            app.ApplyButton_3 = uibutton(app.UIFigure, 'push');
+            app.ApplyButton_3.Position = [380 106 105 28];
+            app.ApplyButton_3.Text = 'Apply';
+
+            % Create LoadButton
+            app.LoadButton = uibutton(app.UIFigure, 'push');
+            app.LoadButton.Position = [23 29 105 28];
+            app.LoadButton.Text = 'Load';
+
+            % Create ApplyAllButton
+            app.ApplyAllButton = uibutton(app.UIFigure, 'push');
+            app.ApplyAllButton.Position = [151 29 105 28];
+            app.ApplyAllButton.Text = 'Apply All';
+
+            % Create plotMagphButton
+            app.plotMagphButton = uibutton(app.UIFigure, 'push');
+            app.plotMagphButton.Position = [277 29 122 28];
+            app.plotMagphButton.Text = 'plot Mag & ph';
+
+            % Create ResetButton
+            app.ResetButton = uibutton(app.UIFigure, 'push');
+            app.ResetButton.Position = [413 29 105 28];
+            app.ResetButton.Text = 'Reset';
+
+            % Show the figure after all components are created
+            app.UIFigure.Visible = 'on';
+        end
+    end
+    
+
+    % App creation and deletion
+    methods (Access = public)
+
+        % Construct app
+        function app = app1_exported
+
+            % Create UIFigure and components
+            createComponents(app)
+
+            % Register the app with App Designer
+            registerApp(app, app.UIFigure)
+
+            if nargout == 0
+                clear app
+            end
+        end
+
+        % Code that executes before app deletion
+        function delete(app)
+
+            % Delete UIFigure when app is deleted
+            delete(app.UIFigure)
+        end
+    end
+end
